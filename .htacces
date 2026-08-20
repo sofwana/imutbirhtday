@@ -1,0 +1,14 @@
+RewriteEngine On
+
+# 1. Pengalihan otomatis dari HTTP ke HTTPS
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# 2. Redirect 301 dari URL .html ke URL bersih (contoh: /gallery.html -> /gallery)
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /([^.]+)\.html\ HTTP/ [NC]
+RewriteRule ^ %1 [R=301,L]
+
+# 3. Membaca file .html di server untuk URL tanpa ekstensi
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.html -f
+RewriteRule ^(.*?)/?$ $1.html [L]
