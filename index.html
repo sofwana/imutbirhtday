@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Maybe Cake</title>
+    <title>Happy Sweet 17th </title>
     <link rel="icon" type="image/png" href="assets/birthday.png">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700;900&display=swap');
@@ -14,13 +14,16 @@
             --yellow: #ffde59;
             --green: #00bf63;
             --pink: #ff99c2;
+            --orange: #e7a042;
             --blue: #5ce1e6;
+            --cyan: #00d2ff;
+            --purple: #a29bfe;
+            --pink2: #fea7ee;
             --red: #ff4757;
-            --choco: #795548;
-            --vanilla: #f3e5ab;
-            --lemon: #fff8b0;
-            --blueberry: #a6bbf1;
-            --mint: #98ff98;
+            --card-yellow: #ffb84d;
+            --card-green: #58d68d;
+            --card-blue: #70a1ff;
+            --card-red: #ff4757;
             --border-width: 3px;
         }
         
@@ -59,10 +62,12 @@
             border: var(--border-width) solid var(--black);
             border-radius: 12px;
             box-shadow: 6px 6px 0px var(--black);
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            transition: all 0.2s;
         }
         
         .brutal-button {
+            background-color: var(--card-yellow);
+            color: var(--black);
             font-weight: 700;
             padding: 12px 24px;
             border: var(--border-width) solid var(--black);
@@ -71,45 +76,12 @@
             cursor: pointer;
             display: inline-flex;
             font-size: 16px;
-            background-color: #fff;
-            justify-content: center;
-            align-items: center;
-            transition: all 0.2s ease-in-out;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
         
         .brutal-button:hover {
             transform: translate(2px, 2px);
             box-shadow: 2px 2px 0px var(--black);
-        }
-        
-        .brutal-button.small {
-            padding: 8px 15px;
-            font-size: 14px;
-            box-shadow: 3px 3px 0px var(--black);
-        }
-        
-        .brutal-button.active {
-            transform: translate(2px, 2px);
-            box-shadow: 1px 1px 0px var(--black) !important;
-            background-color: var(--black) !important;
-            color: white !important;
-            border-color: white;
-        }
-        
-        .pink {
-            background-color: var(--pink);
-        }
-        
-        .blue {
-            background-color: var(--blue);
-        }
-        
-        .green {
-            background-color: var(--green);
-        }
-        
-        .yellow {
-            background-color: var(--yellow);
         }
         
         header {
@@ -154,6 +126,11 @@
             color: var(--black);
             margin-left: 5px;
             animation: blink 0.7s infinite;
+        }
+        
+        #hero-cursor {
+            font-size: inherit;
+            margin-left: 0;
         }
         
         @keyframes blink {
@@ -202,653 +179,336 @@
             color: white;
         }
         
-        .baking-container {
-            background: linear-gradient(180deg, #f0f8ff 0%, #e6e6fa 100%);
-            padding: 40px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            min-height: 550px;
+        .page {
+            flex: 1;
             display: flex;
             flex-direction: column;
+        }
+        
+        .hero {
+            background: linear-gradient(135deg, #d9c6ff 0%, #fff0e6 100%);
+            padding: 60px 40px;
+            display: flex;
             align-items: center;
+            justify-content: space-between;
             margin-bottom: 30px;
-            flex: 1;
         }
         
-        .baking-ui {
-            z-index: 20;
+        .hero-text h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            line-height: 1.1;
+            min-height: 55px;
+        }
+        
+        .hero-text p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            max-width: 500px;
+        }
+        
+        @keyframes popIn {
+            0% {
+                transform: scale(0.5) translateY(50px);
+            }
+            70% {
+                transform: scale(1.05) translateY(-10px);
+            }
+            100% {
+                transform: scale(1) translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .hero-image-wrapper {
             position: relative;
-            background: white;
-            padding: 20px 40px;
-            border-radius: 20px;
-            border: 3px solid var(--black);
-            box-shadow: 4px 4px 0 var(--black);
-            margin-bottom: 40px;
-            max-width: 600px;
-            width: 100%;
-        }
-        
-        .baking-controls {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 15px;
-        }
-        
-        .stage-3d {
-            position: relative;
-            width: 400px;
-            height: 300px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            perspective: 1000px;
-        }
-        
-        .bowl-3d {
-            position: absolute;
-            width: 220px;
-            height: 130px;
-            background: var(--blue);
-            border: 4px solid var(--black);
-            border-radius: 20px 20px 110px 110px;
-            z-index: 5;
-            transition: all 1s cubic-bezier(0.25, 0.8, 0.25, 1);
-            box-shadow: inset -15px -10px rgba(0, 0, 0, 0.1);
-        }
-        
-        .bowl-opening {
-            position: absolute;
-            top: -35px;
-            left: -4px;
-            width: 220px;
-            height: 70px;
-            background: #e0f7fa;
-            border: 4px solid var(--black);
-            border-radius: 50%;
-            z-index: 6;
-            overflow: hidden;
-            box-shadow: inset 0px -10px rgba(0, 0, 0, 0.05);
-        }
-        
-        .batter {
-            position: absolute;
-            top: 15px;
-            left: 10px;
-            width: 200px;
-            height: 140px;
-            background: #fff5e6;
-            border-radius: 50%;
-            transform: scale(0);
-            transition: transform 1s cubic-bezier(0.25, 0.8, 0.25, 1), background 1s;
-            z-index: 1;
-        }
-        
-        .flour-bag {
-            position: absolute;
-            top: -60px;
-            right: 20px;
-            width: 80px;
-            height: 110px;
-            background: #fff;
-            border: 3px solid var(--black);
-            border-radius: 8px;
+            width: 420px;
+            height: 420px;
+            flex-shrink: 0;
+            animation: popIn 1s cubic-bezier(0.25, 1, 0.5, 1) forwards;
             opacity: 0;
+        }
+        
+        .hero-image {
+            width: 100%;
+            height: 100%;
+            background-image: url('assets/Cantik9.png');
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        
+        .brutal-sparkle {
+            position: absolute;
             z-index: 10;
+            animation: sparklePop 1.5s infinite alternate ease-in-out;
+            pointer-events: none;
+            filter: drop-shadow(4px 4px 0px var(--black));
+        }
+        
+        .brutal-sparkle.s1 {
+            top: -20px;
+            left: -20px;
+            width: 65px;
+            height: 65px;
+            --rot: 15deg;
+            animation-delay: 0s;
+        }
+        
+        .brutal-sparkle.s2 {
+            bottom: -20px;
+            right: -10px;
+            width: 50px;
+            height: 50px;
+            --rot: -15deg;
+            animation-delay: 0.5s;
+        }
+        
+        .brutal-sparkle.s3 {
+            top: 20px;
+            right: -25px;
+            width: 40px;
+            height: 40px;
+            --rot: 30deg;
+            animation-delay: 1s;
+        }
+        
+        @keyframes sparklePop {
+            0% {
+                transform: scale(0.8) rotate(var(--rot));
+            }
+            100% {
+                transform: scale(1.15) rotate(calc(var(--rot) + 20deg));
+            }
+        }
+        
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .card {
+            padding: 30px;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 12px 12px 0px var(--black);
+        }
+        
+        .card h3 {
+            color: #ffffff;
+            font-size: 22px;
+            margin-bottom: 12px;
+            text-shadow: 2px 2px 0px var(--black);
+            -webkit-text-stroke: 1px var(--black);
+        }
+        
+        .card p {
+            font-size: 15px;
+            line-height: 1.5;
+            font-weight: 700;
+        }
+        
+        .card.yellow {
+            background-color: var(--card-yellow);
+        }
+        
+        .card.green {
+            background-color: var(--card-green);
+        }
+        
+        .card.blue {
+            background-color: var(--card-blue);
+        }
+        
+        .card.red {
+            background-color: var(--card-red);
+        }
+        
+        .gallery-section {
+            padding: 40px 30px;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+            background-color: var(--pink);
+            background-image: linear-gradient(90deg, var(--black) 2px, transparent 2px), linear-gradient(var(--black) 2px, transparent 2px);
+            background-size: 40px 40px;
+            animation: gridMove 10s linear infinite;
+        }
+        
+        @keyframes gridMove {
+            0% {
+                background-position: 0 0;
+            }
+            100% {
+                background-position: 40px 40px;
+            }
+        }
+        
+        .gallery-section h2 {
+            display: inline-block;
+            background-color: white;
+            color: var(--black);
+            padding: 10px 25px;
+            border: 4px solid var(--black);
+            border-radius: 4px;
+            box-shadow: 6px 6px 0px var(--black);
+            margin-bottom: 25px;
+            transform: rotate(-2deg);
+            position: relative;
+            z-index: 5;
+        }
+        
+        .marquee-container {
+            width: 105%;
+            margin-left: -2%;
+            background-color: var(--yellow);
+            border-top: 4px solid var(--black);
+            border-bottom: 4px solid var(--black);
+            padding: 12px 0;
             display: flex;
+            overflow: hidden;
+            transform: rotate(2deg);
+            box-shadow: 0 6px 0px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 4;
+            margin-bottom: 30px;
+        }
+        
+        .marquee-content {
+            display: flex;
+            white-space: nowrap;
+            width: max-content;
+            animation: scrollText 18s linear infinite;
+        }
+        
+        .marquee-content span {
+            font-size: 22px;
+            font-weight: 900;
+            text-transform: uppercase;
+            padding-right: 15px;
+        }
+        
+        @keyframes scrollText {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            grid-auto-rows: 250px;
+            gap: 25px;
+            position: relative;
+            z-index: 5;
+        }
+        
+        .frame-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+            background: white;
+            padding: 12px 12px 45px 12px;
+            border: 4px solid var(--black);
+            box-shadow: 8px 8px 0px var(--black);
+            transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        
+        .frame-wrapper:nth-child(1) {
+            transform: rotate(-3deg);
+        }
+        
+        .frame-wrapper:nth-child(2) {
+            transform: rotate(4deg);
+        }
+        
+        .frame-wrapper:nth-child(3) {
+            transform: rotate(-5deg);
+        }
+        
+        .frame-wrapper:nth-child(4) {
+            transform: rotate(2deg);
+        }
+        
+        .frame-wrapper:nth-child(5) {
+            transform: rotate(-2deg);
+        }
+        
+        .frame-wrapper:hover,
+        .frame-wrapper.active-pop {
+            transform: scale(1.08) rotate(0deg) translateY(-12px) !important;
+            box-shadow: 14px 14px 0px var(--black) !important;
+            z-index: 25 !important;
+        }
+        
+        .gallery-item {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border: 3px solid var(--black);
+            background-color: var(--bg-color);
+        }
+        
+        @keyframes ornamentBounce {
+            0%,
+            100% {
+                transform: translateY(0) rotate(var(--rot, 0deg));
+            }
+            50% {
+                transform: translateY(-7px) scale(1.04) rotate(calc(var(--rot, 0deg) + 3deg));
+            }
+        }
+        
+        .brutal-ornament-combo {
+            position: absolute;
+            display: inline-flex;
             align-items: center;
-            justify-content: center;
+            gap: 8px;
+            border: 3px solid var(--black);
+            border-radius: 12px;
+            padding: 6px 14px;
+            font-size: 16px;
             font-weight: 900;
             box-shadow: 4px 4px 0px var(--black);
-            transition: opacity 0.5s;
+            z-index: 10;
+            pointer-events: none;
+            user-select: none;
+            animation: ornamentBounce 2.5s ease-in-out infinite;
         }
         
-        .egg-container {
-            position: absolute;
-            top: -40px;
-            left: 80px;
-            width: 50px;
-            height: 65px;
-            z-index: 15;
-            opacity: 0;
-            transition: opacity 0.5s;
+        .frame-wrapper:nth-child(1) .brutal-ornament-combo {
+            animation-delay: 0s;
         }
         
-        .egg-half {
-            position: absolute;
-            width: 50px;
-            height: 32px;
-            background: #ffefdb;
-            border: 3px solid var(--black);
-            left: 0;
-            transition: transform 0.5s;
+        .frame-wrapper:nth-child(2) .brutal-ornament-combo {
+            animation-delay: 0.5s;
         }
         
-        .egg-top {
-            top: 0;
-            border-radius: 30px 30px 5px 5px;
-            transform-origin: bottom left;
+        .frame-wrapper:nth-child(3) .brutal-ornament-combo {
+            animation-delay: 1.0s;
         }
         
-        .egg-bottom {
-            bottom: 0;
-            border-radius: 5px 5px 30px 30px;
-            transform-origin: top right;
+        .frame-wrapper:nth-child(4) .brutal-ornament-combo {
+            animation-delay: 1.5s;
         }
         
-        .egg-yolk {
-            position: absolute;
-            top: 20px;
-            left: 10px;
+        .frame-wrapper:nth-child(5) .brutal-ornament-combo {
+            animation-delay: 2.0s;
+        }
+        
+        .brutal-ornament-combo img {
             width: 30px;
             height: 30px;
-            background: #ffa502;
-            border: 2px solid var(--black);
-            border-radius: 50%;
-            opacity: 0;
-            transition: transform 0.8s ease-in, opacity 0.3s;
-            z-index: -1;
-        }
-        
-        .spoon-3d {
-            position: absolute;
-            top: -140px;
-            left: 90px;
-            width: 28px;
-            height: 160px;
-            background: #fbc531;
-            border: 3px solid var(--black);
-            border-radius: 14px;
-            transform-origin: bottom center;
-            z-index: 5;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        
-        .oven-3d {
-            position: absolute;
-            width: 340px;
-            height: 250px;
-            background: #ff7675;
-            border: 4px solid var(--black);
-            border-radius: 40px 40px 15px 15px;
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            padding-left: 20px;
-            transform: translateX(500px);
-            transition: transform 1.2s cubic-bezier(0.25, 0.8, 0.25, 1);
-            z-index: 4;
-            box-shadow: 10px 10px 0px rgba(0, 0, 0, 0.15), inset -30px 0px rgba(0, 0, 0, 0.1);
-        }
-        
-        .oven-panel {
-            position: absolute;
-            right: 0;
-            top: 0;
-            width: 70px;
-            height: 100%;
-            background: #e15f5d;
-            border-left: 4px solid var(--black);
-            border-radius: 0 40px 15px 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding-top: 30px;
-            gap: 15px;
-        }
-        
-        .oven-knob {
-            width: 25px;
-            height: 25px;
-            background: #fff;
-            border: 3px solid var(--black);
-            border-radius: 50%;
-            box-shadow: 2px 2px 0 var(--black);
-        }
-        
-        .oven-door {
-            width: 220px;
-            height: 150px;
-            background: #dfe6e9;
-            border: 4px solid var(--black);
-            border-radius: 12px;
-            margin-top: 20px;
-            position: relative;
-            transform-origin: bottom;
-            transition: transform 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
-            transform-style: preserve-3d;
-            z-index: 6;
-        }
-        
-        .oven-glass {
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            width: 182px;
-            height: 112px;
-            background: rgba(45, 52, 54, 0.9);
-            border: 4px solid var(--black);
-            transition: background 1s ease-in-out, box-shadow 1s;
-        }
-        
-        .oven-glowing {
-            background: rgba(255, 100, 0, 0.8) !important;
-            box-shadow: 0 0 40px rgba(255, 100, 0, 0.5);
-        }
-        
-        .baked-cake-out {
-            position: absolute;
-            width: 200px;
-            height: 80px;
-            z-index: 8;
-            top: 110px;
-            left: 30px;
-            opacity: 0;
-            transform: translateY(20px) scale(0.6);
-            transition: all 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            pointer-events: none;
-        }
-        
-        .baked-cake-out.show {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-        }
-        
-        .baked-body {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, rgba(0, 0, 0, 0.2) 0%, rgba(255, 255, 255, 0.4) 30%, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 0.3) 100%), var(--vanilla);
-            border: 4px solid var(--black);
-            border-radius: 50% / 25px;
-            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3);
-        }
-        
-        .baked-top {
-            position: absolute;
-            top: -4px;
-            left: -4px;
-            width: calc(100% + 8px);
-            height: 40px;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.5) 0%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.1) 100%), var(--vanilla);
-            border: 4px solid var(--black);
-            border-radius: 50%;
-        }
-        
-        @keyframes pourFlourAnim {
-            0% {
-                opacity: 0;
-                transform: translate(30px, -10px) rotate(0deg);
-            }
-            15% {
-                opacity: 1;
-                transform: translate(10px, 10px) rotate(-15deg);
-            }
-            30%,
-            70% {
-                opacity: 1;
-                transform: translate(-10px, 30px) rotate(-45deg);
-            }
-            85% {
-                opacity: 1;
-                transform: translate(10px, 10px) rotate(-15deg);
-            }
-            100% {
-                opacity: 0;
-                transform: translate(30px, -10px) rotate(0deg);
-            }
-        }
-        
-        @keyframes stirAnim {
-            0% {
-                opacity: 0;
-                transform: translateY(-50px) rotate(0deg);
-            }
-            10% {
-                opacity: 1;
-                transform: translateY(40px) rotate(10deg);
-            }
-            20% {
-                transform: translateY(50px) translateX(30px) rotate(25deg);
-            }
-            40% {
-                transform: translateY(40px) translateX(-30px) rotate(-15deg);
-            }
-            60% {
-                transform: translateY(50px) translateX(30px) rotate(25deg);
-            }
-            80% {
-                transform: translateY(40px) translateX(-30px) rotate(-15deg);
-            }
-            90% {
-                opacity: 1;
-                transform: translateY(40px) rotate(0deg);
-            }
-            100% {
-                opacity: 0;
-                transform: translateY(-50px) rotate(0deg);
-            }
-        }
-        
-        #interactive-cake-view {
-            display: none;
-            width: 100%;
-            min-height: 600px;
-            gap: 30px;
-            padding: 30px;
-            position: relative;
-            margin-bottom: 30px;
-            flex: 1;
-        }
-        
-        .decorating-layout {
-            display: flex;
-            transition: background 1.5s;
-        }
-        
-        .decorating-layout.celebrate {
-            background: #111;
-        }
-        
-        .decorator-sidebar {
-            flex: 0 0 340px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            z-index: 20;
-            background: white;
-            padding: 25px;
-            border-radius: 12px;
-            border: 3px solid var(--black);
-            box-shadow: 6px 6px 0 var(--black);
-        }
-        
-        .decor-group {
-            background: #fdfaf6;
-            padding: 12px;
-            border-radius: 8px;
-            border: 2px solid var(--black);
-        }
-        
-        .decor-group span {
-            font-weight: 900;
-        }
-        
-        .btn-row {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            margin-top: 8px;
-        }
-        
-        .cake-stage-container {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            z-index: 10;
-            width: 100%;
-        }
-        
-        .cake-stage {
-            position: relative;
-            width: 100%;
-            height: 450px;
-            display: flex;
-            justify-content: center;
-            align-items: flex-end;
-            padding-bottom: 50px;
-        }
-        
-        .cake-wrapper {
-            position: relative;
-            z-index: 5;
-            transition: transform 1s cubic-bezier(0.25, 0.8, 0.25, 1);
-        }
-        
-        .cake-wrapper.pop-up {
-            transform: scale(1.2) translateY(-20px);
-        }
-        
-        .cake-plate {
-            width: 360px;
-            height: 60px;
-            background: linear-gradient(to right, #ccc, #f0f0f0, #aaa);
-            border-radius: 50%;
-            position: absolute;
-            bottom: -30px;
-            left: 50%;
-            transform: translateX(-50%);
-            border: 4px solid var(--black);
-            box-shadow: 0 20px 10px rgba(0, 0, 0, 0.2), inset -10px -10px 20px rgba(0, 0, 0, 0.1);
-        }
-        
-        .cake-3d-final {
-            position: relative;
-            display: flex;
-            flex-direction: column-reverse;
-            align-items: center;
-            gap: 0;
-        }
-        
-        .final-layer {
-            position: relative;
-            display: none;
-            margin-bottom: -40px;
-            transition: transform 0.5s;
-        }
-        
-        .final-layer.visible {
-            display: block;
-            animation: dropLayer 0.6s cubic-bezier(0.25, 1.5, 0.5, 1) forwards;
-        }
-        
-        @keyframes dropLayer {
-            0% {
-                transform: translateY(-100px);
-                opacity: 0;
-            }
-            100% {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-        
-        .final-layer[data-layer="1"] {
-            width: 280px;
-            height: 110px;
-            z-index: 3;
-        }
-        
-        .final-layer[data-layer="2"] {
-            width: 220px;
-            height: 95px;
-            z-index: 4;
-        }
-        
-        .final-layer[data-layer="3"] {
-            width: 160px;
-            height: 85px;
-            z-index: 5;
-        }
-        
-        .layer-body {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            height: 100%;
-            --layer-color: var(--vanilla);
-            background: linear-gradient(90deg, rgba(0, 0, 0, 0.2) 0%, rgba(255, 255, 255, 0.4) 30%, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 0.3) 100%), var(--layer-color);
-            border: 4px solid var(--black);
-            border-radius: 50% / 30px;
-            box-shadow: inset -20px -10px 20px rgba(0, 0, 0, 0.2), 0 15px 15px rgba(0, 0, 0, 0.25);
-            transition: background 0.5s;
-            overflow: hidden;
-        }
-        
-        .layer-top {
-            position: absolute;
-            top: -4px;
-            left: -4px;
-            width: calc(100% + 8px);
-            height: 50px;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.5) 0%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.1) 100%), var(--layer-color);
-            border: 4px solid var(--black);
-            border-radius: 50%;
-            z-index: 2;
-            transition: background 0.5s;
-        }
-        
-        .cream-drip {
-            position: absolute;
-            top: 20px;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-            display: none;
-            transition: opacity 0.3s;
-        }
-        
-        .cream-drip.show {
-            display: block;
-        }
-        
-        .drip-drop {
-            position: absolute;
-            top: 0;
-            background-color: inherit;
-            border: 4px solid var(--black);
-            border-top: none;
-            border-radius: 0 0 30px 30px;
-        }
-        
-        .piping-base {
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 100%;
-            height: 25px;
-            display: flex;
-            justify-content: space-around;
-            align-items: flex-end;
-            z-index: 3;
-            padding: 0 10px;
-            opacity: 0.8;
-        }
-        
-        .piping-star {
-            width: 25px;
-            height: 25px;
-            background-color: white;
-            border: 3px solid var(--black);
-            border-radius: 50%;
-        }
-        
-        .layer-ornament {
-            position: absolute;
-            font-size: 30px;
-            z-index: 5;
-            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            filter: drop-shadow(2px 2px 0px var(--black));
-        }
-        
-        .candle-container {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            justify-content: center;
-            align-items: flex-end;
-            z-index: 10;
-            gap: 10px;
-            transition: bottom 0.5s ease-in-out;
-        }
-        
-        .candle-classic {
-            display: none;
-            position: relative;
-            width: 22px;
-            height: 65px;
-            border: 3px solid var(--black);
-            border-radius: 8px;
-            background: repeating-linear-gradient(45deg, #fff, #fff 10px, #ff4757 10px, #ff4757 20px);
-            box-shadow: 2px 2px 0px var(--black);
-        }
-        
-        .candle-number {
-            display: none;
-            position: relative;
-            font-size: 75px;
-            font-weight: 900;
-            color: var(--yellow);
-            -webkit-text-stroke: 3px var(--black);
-            text-shadow: 4px 4px 0px var(--black);
-            line-height: 1;
-        }
-        
-        .flame {
-            position: absolute;
-            width: 20px;
-            height: 35px;
-            background: radial-gradient(ellipse at bottom, #fff 10%, #ffde59 40%, #ff99c2 80%, transparent 100%);
-            border-radius: 50% 50% 30% 30% / 60% 60% 40% 40%;
-            transform-origin: bottom center;
-            animation: flicker 0.15s infinite alternate;
-            z-index: 12;
-            filter: drop-shadow(0 0 10px var(--yellow));
-        }
-        
-        .flame.blown-out {
-            transform: scale(0) !important;
-            opacity: 0;
-            transition: all 0.3s ease;
-        }
-        
-        @keyframes flicker {
-            0% {
-                transform: translateX(-50%) rotate(-3deg) scale(1.05, 0.95);
-            }
-            100% {
-                transform: translateX(-50%) rotate(2deg) scale(0.95, 1.05);
-            }
-        }
-        
-        #confetti-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-            overflow: hidden;
-            display: none;
-        }
-        
-        .confetti-piece {
-            position: absolute;
-            width: 12px;
-            height: 25px;
-            border: 2px solid var(--black);
-            animation: fallConfetti linear forwards;
-        }
-        
-        @keyframes fallConfetti {
-            0% {
-                transform: translateY(-50px) rotate(0deg);
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(100vh) rotate(720deg);
-                opacity: 0;
-            }
+            object-fit: contain;
         }
         
         footer {
@@ -877,7 +537,7 @@
             background-color: white;
         }
         
-        @media (max-width: 768px) {
+        @media (max-width: 767px) {
             body {
                 padding: 12px;
             }
@@ -916,277 +576,189 @@
                 max-width: 100%;
                 margin-top: 4px;
             }
-            .baking-container {
-                padding: 20px 10px;
-                min-height: 480px;
-                justify-content: flex-start;
-            }
-            .baking-ui {
-                padding: 15px 12px;
-                margin-bottom: 20px;
-                border-radius: 14px;
-            }
-            .baking-ui h2 {
-                font-size: 18px;
-            }
-            .baking-ui p {
-                font-size: 13px;
-            }
-            .baking-controls {
-                gap: 8px;
-            }
-            .baking-controls .brutal-button {
-                width: 100%;
-                font-size: 14px;
-                padding: 10px 16px;
-            }
-            .stage-3d {
-                width: 300px;
-                height: 240px;
-                transform: scale(0.75);
-                transform-origin: center center;
-            }
-            #interactive-cake-view {
-                padding: 15px 10px;
-                gap: 20px;
-                flex-direction: column-reverse;
-            }
-            .decorator-sidebar {
-                width: 100%;
-                flex: none;
-                padding: 15px;
-                box-shadow: 4px 4px 0 var(--black);
-            }
-            .decorator-sidebar h2 {
-                font-size: 20px;
+            .hero {
+                flex-direction: column;
                 text-align: center;
+                padding: 40px 20px;
             }
-            .cake-stage-container {
+            .hero-text h1 {
+                font-size: 36px;
+                min-height: 80px;
+            }
+            .hero-image-wrapper {
                 width: 100%;
+                max-width: 340px;
+                height: 340px;
+                margin-top: 30px;
+                margin-left: auto;
+                margin-right: auto;
             }
-            .cake-stage {
-                height: 320px;
-                padding-bottom: 20px;
+            .gallery-grid {
+                grid-template-columns: 1fr;
+                grid-auto-rows: 420px;
             }
-            .cake-wrapper {
-                transform: scale(0.7);
-                transform-origin: bottom center;
+            .frame-wrapper[style] {
+                grid-column: span 1 !important;
+                grid-row: span 1 !important;
             }
-            .cake-wrapper.pop-up {
-                transform: scale(0.9) translateY(-15px);
+            .frame-wrapper:hover,
+            .frame-wrapper.active-pop {
+                transform: scale(1) rotate(0deg) translateY(-8px) !important;
+                box-shadow: 10px 10px 0px var(--black) !important;
             }
-            #blow-actions {
-                width: 100%;
+            .brutal-ornament-combo {
+                font-size: 12px !important;
+                padding: 4px 8px !important;
             }
-            #blow-actions .brutal-button {
-                width: 100%;
+            .brutal-ornament-combo img {
+                width: 20px !important;
+                height: 20px !important;
+            }
+            .marquee-content span {
                 font-size: 18px;
-                padding: 12px 20px;
             }
         }
     </style>
 </head>
 
 <body>
-    <audio id="hbd-audio" src="https://upload.wikimedia.org/wikipedia/commons/4/4b/Happy_Birthday_to_You_-_piano_version.ogg" preload="auto"></audio>
-
     <header class="brutal-box">
         <div class="logo">✨ Happy Sweet 17th<span id="typing-text"></span><span class="cursor">|</span></div>
         <nav>
-            <button onclick="window.location.href='index.html'">Home</button>
+            <button class="active-nav" onclick="window.location.href='index.html'">Home</button>
             <button onclick="window.location.href='message.html'">Pesan</button>
-            <button class="active-nav" onclick="window.location.href='cake.html'">Kue 3D</button>
+            <button onclick="window.location.href='cake.html'">Kue 3D</button>
             <button onclick="window.location.href='photobox.html'">Photobox</button>
             <button class="prank-btn" onclick="window.location.href='gift.html'">Hadiah? 🎁</button>
         </nav>
     </header>
 
-    <div id="baking-view" class="baking-container brutal-box">
-        <div class="baking-ui">
-            <h2 id="bake-title">Langkah 1: Masukkan Tepung</h2>
-            <p id="bake-desc">Klik tombol di bawah untuk memasukkan tepung ke dalam mangkuk.</p>
-            <div class="baking-controls">
-                <button class="brutal-button pink" id="btn-flour" onclick="stepPourFlour()">🌾 Tuang Tepung</button>
-                <button class="brutal-button yellow" id="btn-egg" onclick="stepCrackEgg()" style="display:none;">🥚 Pecahkan Telur</button>
-                <button class="brutal-button blue" id="btn-stir" onclick="stepStir()" style="display:none;">🥄 Aduk Rata</button>
-                <button class="brutal-button green" id="btn-oven" onclick="stepOven()" style="display:none;">🔥 Panggang Adonan</button>
-                <button class="brutal-button blue" id="btn-add-layer" onclick="addNextLayer()" style="display:none;">🥞 Buat Layer Baru</button>
-                <button class="brutal-button pink" id="btn-finish" onclick="finishBaking()" style="display:none;">✨ Lanjut Hias Kue</button>
-            </div>
-        </div>
-
-        <div class="stage-3d">
-            <div class="oven-3d" id="oven">
-                <div class="oven-door" id="oven-door">
-                    <div class="oven-glass" id="oven-glass"></div>
-                </div>
-                <div class="oven-panel">
-                    <div class="oven-knob"></div>
-                    <div class="oven-knob"></div>
-                    <div class="oven-knob"></div>
-                </div>
-                <div class="baked-cake-out" id="baked-cake-out">
-                    <div class="baked-body"></div>
-                    <div class="baked-top"></div>
-                </div>
+    <div class="page active">
+        <section class="hero brutal-box">
+            <div class="hero-text">
+                <h1><span id="hero-title"></span><span class="cursor" id="hero-cursor">|</span></h1>
+                <p>Welcome to adulthood anak kecil imut! Semoga perjalananmu di chapter baru ini penuh dengan keberanian, cinta, kebahagiaan dan keajaiban.</p>
             </div>
 
-            <div class="bowl-3d" id="main-bowl">
-                <div class="bowl-opening">
-                    <div class="batter" id="batter"></div>
-                    <div class="spoon-3d" id="spoon"></div>
+            <div class="hero-image-wrapper">
+                <div class="hero-image"></div>
+
+                <svg class="brutal-sparkle s1" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M50 5 L60 40 L95 50 L60 60 L50 95 L40 60 L5 50 L40 40 Z" fill="var(--yellow)" stroke="var(--black)" stroke-width="8" stroke-linejoin="round"/>
+                </svg>
+
+                <svg class="brutal-sparkle s2" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M50 5 L60 40 L95 50 L60 60 L50 95 L40 60 L5 50 L40 40 Z" fill="var(--pink)" stroke="var(--black)" stroke-width="8" stroke-linejoin="round"/>
+                </svg>
+
+                <svg class="brutal-sparkle s3" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M50 5 L60 40 L95 50 L60 60 L50 95 L40 60 L5 50 L40 40 Z" fill="var(--blue)" stroke="var(--black)" stroke-width="8" stroke-linejoin="round"/>
+                </svg>
+            </div>
+        </section>
+
+        <section class="grid-container">
+            <div class="card yellow brutal-box">
+                <h3>💖 Harapan</h3>
+                <p>"Semoga langkahmu selalu dipenuhi senyum, tubuhmu senantiasa sehat, dan setiap impian terbesarmu segera berlabuh jadi kenyataan"</p>
+            </div>
+            <div class="card green brutal-box">
+                <h3>🐉 Keberanian</h3>
+                <p>"Keberanian bukan berarti kamu tidak pernah takut, tapi tentang tetap maju teruslah berani mengejar apa yang kamu inginkan. Di setiap proses dan perjuanganmu, aku selalu jadi fans nomor satu"</p>
+            </div>
+            <div class="card blue brutal-box">
+                <h3>🌿 Kenyamanan</h3>
+                <p>"Saat dunia terasa bising dan melelahkan, ingatlah bahwa kamu selalu punya tempat yang hangat untuk pulang dan beristirahat"</p>
+            </div>
+            <div class="card red brutal-box">
+                <h3>🚀 Masa Depan</h3>
+                <p>"Teruslah melangkah dengan yakin, karena hal-hal hebat sedang menunggumu di garis akhir"</p>
+            </div>
+        </section>
+
+        <section class="gallery-section brutal-box">
+            <h2>📸 Memories From Chapters Of Life's Journey</h2>
+
+            <div class="marquee-container">
+                <div class="marquee-content">
+                    <span>✨ SWEET 17 MEMORIES ✨ UNFORGETTABLE MOMENTS ✨ BEST DAY EVER ✨ FOREVER YOUNG ✨ BEAUTIFUL✨ SMART </span>
+                    <span>✨ SWEET 17 MEMORIES ✨ UNFORGETTABLE MOMENTS ✨ BEST DAY EVER ✨ FOREVER YOUNG✨ BEAUTIFUL ✨ SMART </span>
                 </div>
             </div>
 
-            <div class="flour-bag" id="flour-bag">FLOUR</div>
+            <div class="gallery-grid">
 
-            <div class="egg-container" id="egg-container">
-                <div class="egg-half egg-top" id="egg-top"></div>
-                <div class="egg-half egg-bottom" id="egg-bottom"></div>
-                <div class="egg-yolk" id="yolk"></div>
+                <div class="frame-wrapper" style="grid-column: span 2; grid-row: span 2; z-index: 2;">
+                    <img src="assets/Cantik4.jpg" class="gallery-item">
+                    <div class="brutal-ornament-combo" style="bottom: 10px; right: 10px; background: var(--blue); --rot: -5deg;">
+                        <img src="assets/soju.png" alt=" 🍶 ">
+                        <span>Soju Time!</span>
+                    </div>
+                </div>
+
+                <div class="frame-wrapper " style="z-index: 3; ">
+                    <img src="assets/Cantik5.jpg" class="gallery-item ">
+                    <div class="brutal-ornament-combo " style="top: -15px; left: -10px; background: var(--orange); --rot: 10deg; ">
+                        <img src="assets/kripca.png " alt=" ">
+                        <span>Kripca</span>
+                    </div>
+                </div>
+
+                <div class="frame-wrapper " style="z-index: 1; ">
+                    <img src="assets/Cantik11.jpg " class="gallery-item ">
+                    <div class="brutal-ornament-combo " style="bottom: -15px; right: -15px; background: var(--green); --rot: -8deg; ">
+                        <img src="assets/matcha.png " alt="🍵 ">
+                        <span>Matcha Addict</span>
+                    </div>
+                </div>
+
+                <div class="frame-wrapper " style="grid-column: span 2; z-index: 4; ">
+                    <img src="assets/Cantik2.jpg" class="gallery-item ">
+                    <div class="brutal-ornament-combo " style="bottom: 15px; right: -15px; background: var(--yellow); --rot: 5deg; ">
+                        <img src="assets/buah.png" alt="fruit">
+                        <span>Fruit Enthusiast</span>
+                    </div>
+                </div>
+
+                <div class="frame-wrapper " style="z-index: 5; ">
+                    <img src="assets/Cantiik6.jpg" class="gallery-item ">
+                    <div class="brutal-ornament-combo " style="top: -10px; left: -10px; background: var(--red); color: white; --rot: -12deg; ">
+                        <img src="assets/dog.png " alt="dog">
+                        <span>Dog Lover</span>
+                    </div>
+                </div>
+
+                <div class="frame-wrapper " style="grid-column: span 2; z-index: 6; ">
+                    <img src="assets/Cantik1.jpg" class="gallery-item ">
+                    <div class="brutal-ornament-combo " style="bottom: 15px; right: -15px; background: var(--pink2); --rot: 5deg; ">
+                        <img src="assets/drumben.png " alt=" ">
+                        <span>Drumben</span>
+                    </div>
+                </div>
+
+                <div class="frame-wrapper " style="z-index: 7; ">
+                    <img src="assets/Cantik3.jpg" class="gallery-item ">
+                    <div class="brutal-ornament-combo " style="bottom: -15px; right: -15px; background: rgb(173, 255, 115); --rot: -8deg; ">
+                        <img src="assets/dance.png" alt=" ">
+                        <span>Dance</span>
+                    </div>
+                </div>
+
             </div>
-        </div>
+        </section>
     </div>
 
-    <div id="interactive-cake-view" class="decorating-layout brutal-box">
-        <div id="confetti-container"></div>
-
-        <div class="cake-stage-container">
-            <div class="cake-stage">
-                <div class="cake-wrapper" id="cake-wrapper">
-                    <div class="cake-plate"></div>
-
-                    <div class="cake-3d-final" id="cake-final">
-
-                        <div class="final-layer" id="final-layer-1" data-layer="1">
-                            <div class="layer-body">
-                                <div class="layer-top"></div>
-                                <div class="piping-base">
-                                    <div class="piping-star"></div>
-                                    <div class="piping-star"></div>
-                                    <div class="piping-star"></div>
-                                    <div class="piping-star"></div>
-                                    <div class="piping-star"></div>
-                                    <div class="piping-star"></div>
-                                    <div class="piping-star"></div>
-                                    <div class="piping-star"></div>
-                                </div>
-                                <div class="cream-drip">
-                                    <div class="drip-drop" style="left: 5%; width: 15%; height: 50px;"></div>
-                                    <div class="drip-drop" style="left: 30%; width: 12%; height: 35px;"></div>
-                                    <div class="drip-drop" style="left: 55%; width: 18%; height: 60px;"></div>
-                                    <div class="drip-drop" style="left: 80%; width: 15%; height: 45px;"></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="final-layer" id="final-layer-2" data-layer="2">
-                            <div class="layer-body">
-                                <div class="layer-top"></div>
-                                <div class="piping-base">
-                                    <div class="piping-star"></div>
-                                    <div class="piping-star"></div>
-                                    <div class="piping-star"></div>
-                                    <div class="piping-star"></div>
-                                    <div class="piping-star"></div>
-                                    <div class="piping-star"></div>
-                                </div>
-                                <div class="cream-drip">
-                                    <div class="drip-drop" style="left: 10%; width: 18%; height: 45px;"></div>
-                                    <div class="drip-drop" style="left: 45%; width: 15%; height: 30px;"></div>
-                                    <div class="drip-drop" style="left: 75%; width: 16%; height: 50px;"></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="final-layer" id="final-layer-3" data-layer="3">
-                            <div class="layer-body">
-                                <div class="layer-top"></div>
-                                <div class="piping-base">
-                                    <div class="piping-star"></div>
-                                    <div class="piping-star"></div>
-                                    <div class="piping-star"></div>
-                                    <div class="piping-star"></div>
-                                </div>
-                                <div class="cream-drip">
-                                    <div class="drip-drop" style="left: 15%; width: 22%; height: 35px;"></div>
-                                    <div class="drip-drop" style="left: 60%; width: 25%; height: 45px;"></div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div class="candle-container" id="top-candle-container">
-                        <div class="candle-classic" id="candle-c">
-                            <div class="flame" style="left: 50%; top: -30px;"></div>
-                        </div>
-                        <div class="candle-number" id="candle-18">
-                            <div style="position:relative; display:inline-block;">1
-                                <div class="flame" style="left:50%; top:-30px;"></div>
-                            </div>
-                            <div style="position:relative; display:inline-block;">8
-                                <div class="flame" style="left:50%; top:-30px;"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-            <div id="blow-actions" style="margin-top: 20px; z-index: 10; display: none;">
-                <button class="brutal-button pink" id="btn-blow" onclick="blowCandle()">🌬️ Tiup Lilinnya!</button>
-            </div>
-        </div>
-
-        <div class="decorator-sidebar" id="decorator-sidebar">
-            <h2 style="font-weight: 900;">Hias Kuemu! 🎨</h2>
-            <div class="decor-group"><span>📌 Pilih Layer:</span>
-                <div class="btn-row" id="layer-selector"></div>
-            </div>
-            <div class="decor-group">
-                <span>🎨 Warna Roti (4 Pilihan):</span>
-                <div class="btn-row">
-                    <button class="brutal-button small pink" onclick="editLayerBg('var(--pink)')">Pink</button>
-                    <button class="brutal-button small" style="background:var(--choco); color:white;" onclick="editLayerBg('var(--choco)')">Cokelat</button>
-                    <button class="brutal-button small" style="background:var(--vanilla);" onclick="editLayerBg('var(--vanilla)')">Vanilla</button>
-                    <button class="brutal-button small" style="background:var(--mint);" onclick="editLayerBg('var(--mint)')">Mint</button>
-                </div>
-            </div>
-            <div class="decor-group">
-                <span>🧁 Krim Leleh:</span>
-                <div class="btn-row">
-                    <button class="brutal-button small" style="background:var(--pink);" onclick="toggleCream('var(--pink)')">Stroberi</button>
-                    <button class="brutal-button small" style="background:var(--choco); color:white;" onclick="toggleCream('var(--choco)')">Cokelat</button>
-                    <button class="brutal-button small" style="background:#e0e0e0;" onclick="toggleCream('none')">Hapus Krim</button>
-                </div>
-            </div>
-            <div class="decor-group">
-                <span>🎀 Tempel Hiasan:</span>
-                <div class="btn-row">
-                    <button class="brutal-button small green" onclick="addOrnament('🌸')">🌸</button>
-                    <button class="brutal-button small pink" onclick="addOrnament('🍓')">🍓</button>
-                    <button class="brutal-button small yellow" onclick="addOrnament('⭐')">⭐</button>
-                </div>
-            </div>
-            <div class="decor-group">
-                <span>🕯️ Pilih Lilin:</span>
-                <div class="btn-row">
-                    <button class="brutal-button small blue" onclick="changeCandle('classic')">Lilin Biasa</button>
-                    <button class="brutal-button small yellow" onclick="changeCandle('18')">Lilin Angka</button>
-                </div>
-            </div>
-            <button class="brutal-button green" style="margin-top: 10px; font-size: 18px; padding: 15px;" onclick="prepareBlowMode()">✅ Selesai & Tiup Lilin!</button>
-        </div>
-    </div>
     <footer>
         &copy; 2026 Hak Cipta Fans Number One | Dibuat untuk membuatnya tersenyum dihari bahagianya 💖
         <a href="https://www.instagram.com/sofwan_a/" target="_blank" class="ig-link">s</a>
     </footer>
+
     <script>
         const names = ["Dita Suciadi", "Louise Margareth", "Hellen Moudjie"];
         let nameIndex = 0,
             charIndex = 0,
             isDeleting = false;
+
         const typingElement = document.getElementById("typing-text");
 
         function typeEffectName() {
@@ -1225,252 +797,57 @@
             setTimeout(typeEffectName, typeSpeed);
         }
 
-        document.addEventListener("DOMContentLoaded", typeEffectName);
+        const heroTitleText = "Maria Conceta Pricylla De Louise Margareth";
+        let heroCharIndex = 0;
+        const heroTitleElement = document.getElementById("hero-title");
+        const heroCursor = document.getElementById("hero-cursor");
 
-
-        let layerCount = 1,
-            maxLayers = 3;
-
-
-        function stepPourFlour() {
-            document.getElementById('btn-flour').style.display = 'none';
-            const flourBag = document.getElementById('flour-bag');
-            flourBag.style.animation = "pourFlourAnim 2.5s cubic-bezier(0.25, 0.8, 0.25, 1) forwards";
-
-            setTimeout(() => {
-                document.getElementById('batter').style.transform = "scale(0.6)";
-            }, 800);
-
-            setTimeout(() => {
-                document.getElementById('btn-egg').style.display = 'inline-flex';
-                document.getElementById('bake-title').innerText = "Langkah 2: Pecahkan Telur";
-                document.getElementById('bake-desc').innerText = "Klik tombol di bawah untuk memecahkan telur ke dalam adonan.";
-                flourBag.style.animation = "none";
-            }, 2500);
-        }
-
-
-        function stepCrackEgg() {
-            document.getElementById('btn-egg').style.display = 'none';
-            const egg = document.getElementById('egg-container');
-            const topHalf = document.getElementById('egg-top');
-            const bottomHalf = document.getElementById('egg-bottom');
-            const yolk = document.getElementById('yolk');
-
-            egg.style.opacity = "1";
-            egg.style.transform = "translateY(10px)";
-
-            setTimeout(() => {
-                topHalf.style.transform = "rotate(-30deg) translate(-10px, -10px)";
-                bottomHalf.style.transform = "rotate(30deg) translate(10px, 10px)";
-                yolk.style.opacity = "1";
-
-                setTimeout(() => {
-                    yolk.style.transform = "translateY(80px)";
-
-                    setTimeout(() => {
-                        yolk.style.opacity = "0";
-                        document.getElementById('batter').style.transform = "scale(0.85)";
-                        egg.style.opacity = "0";
-
-                        setTimeout(() => {
-                            topHalf.style.transform = "none";
-                            bottomHalf.style.transform = "none";
-                            yolk.style.transform = "none";
-                            egg.style.transform = "none";
-
-                            document.getElementById('btn-stir').style.display = 'inline-flex';
-                            document.getElementById('bake-title').innerText = "Langkah 3: Aduk Adonan";
-                            document.getElementById('bake-desc').innerText = "Aduk semua bahan hingga tercampur rata dan mengembang.";
-                        }, 500);
-                    }, 800);
-                }, 300);
-            }, 800);
-        }
-
-
-        function stepStir() {
-            document.getElementById('btn-stir').style.display = 'none';
-            const spoon = document.getElementById('spoon');
-            spoon.style.animation = "stirAnim 3s ease-in-out forwards";
-
-            setTimeout(() => {
-                const batter = document.getElementById('batter');
-                batter.style.background = "#ffde59";
-                batter.style.transform = "scale(1.1)";
-            }, 1000);
-
-            setTimeout(() => {
-                document.getElementById('btn-oven').style.display = 'inline-flex';
-                document.getElementById('bake-title').innerText = "Langkah 4: Panggang Kue";
-                document.getElementById('bake-desc').innerText = "Waktunya memasukkan adonan ke dalam oven panas!";
-                spoon.style.animation = "none";
-            }, 3000);
-        }
-
-
-        function stepOven() {
-            document.getElementById('btn-oven').style.display = 'none';
-            const bowl = document.getElementById('main-bowl'),
-                oven = document.getElementById('oven'),
-                door = document.getElementById('oven-door'),
-                glass = document.getElementById('oven-glass'),
-                bakedOut = document.getElementById('baked-cake-out');
-
-            oven.style.transform = "translateX(0)";
-
-            setTimeout(() => {
-                door.style.transform = "rotateX(80deg)";
-
-                setTimeout(() => {
-                    bowl.style.opacity = "0";
-                    door.style.transform = "rotateX(0deg)";
-
-                    setTimeout(() => {
-                        glass.classList.add('oven-glowing');
-                        document.getElementById('bake-title').innerText = "Sedang Memanggang...";
-                        document.getElementById('bake-desc').innerText = "Tunggu sebentar, kue sedang dipanggang hingga matang!";
-
-                        setTimeout(() => {
-                            glass.classList.remove('oven-glowing');
-                            door.style.transform = "rotateX(80deg)";
-
-                            setTimeout(() => {
-                                bakedOut.classList.add('show');
-                                document.getElementById('bake-title').innerText = "Layer " + layerCount + " Berhasil Dipanggang!";
-                                document.getElementById('bake-desc').innerText = "Wah, kuenya sudah matang dan keluar dari oven!";
-
-                                document.getElementById('btn-finish').style.display = 'inline-flex';
-                                if (layerCount < maxLayers) {
-                                    document.getElementById('btn-add-layer').style.display = 'inline-flex';
-                                }
-                            }, 400);
-
-                        }, 2500);
-                    }, 800);
-                }, 800);
-            }, 1000);
-        }
-
-        function addNextLayer() {
-            layerCount++;
-            document.getElementById('btn-add-layer').style.display = 'none';
-            document.getElementById('btn-finish').style.display = 'none';
-
-            const bowl = document.getElementById('main-bowl'),
-                oven = document.getElementById('oven'),
-                door = document.getElementById('oven-door'),
-                bakedOut = document.getElementById('baked-cake-out');
-
-            bakedOut.classList.remove('show');
-            door.style.transform = "rotateX(0deg)";
-            oven.style.transform = "translateX(500px)";
-
-            setTimeout(() => {
-                bowl.style.opacity = "1";
-                document.getElementById('batter').style.transform = "scale(0)";
-                document.getElementById('batter').style.background = "#fff5e6";
-                document.getElementById('btn-flour').style.display = 'inline-flex';
-                document.getElementById('bake-title').innerText = "Langkah 1: Masukkan Tepung (Layer " + layerCount + ")";
-                document.getElementById('bake-desc').innerText = "Siapkan adonan tepung untuk Layer ke-" + layerCount + ".";
-            }, 1000);
-        }
-
-
-        let activeLayer = 1;
-
-        function finishBaking() {
-            document.getElementById('baking-view').style.opacity = "0";
-            setTimeout(() => {
-                document.getElementById('baking-view').style.display = "none";
-                const cakeView = document.getElementById('interactive-cake-view');
-                cakeView.style.display = "flex";
-
-                const selectorDiv = document.getElementById('layer-selector');
-                selectorDiv.innerHTML = '';
-
-                for (let i = 1; i <= layerCount; i++) {
-                    setTimeout(() => {
-                        document.getElementById('final-layer-' + i).classList.add('visible');
-                    }, i * 400);
-
-                    const btn = document.createElement('button');
-                    btn.className = "brutal-button small " + (i === 1 ? "active" : "");
-                    btn.innerText = "Layer " + i;
-                    btn.onclick = () => {
-                        activeLayer = i;
-                        Array.from(selectorDiv.children).forEach(b => b.classList.remove('active'));
-                        btn.classList.add('active');
-                    };
-                    selectorDiv.appendChild(btn);
-                }
-
-                changeCandle('17');
-                let heights = [0, 95, 175, 250];
-                document.getElementById('top-candle-container').style.bottom = heights[layerCount] + "px";
-            }, 500);
-        }
-
-        function editLayerBg(color) {
-            const targetBody = document.getElementById('final-layer-' + activeLayer).querySelector('.layer-body');
-            const targetTop = document.getElementById('final-layer-' + activeLayer).querySelector('.layer-top');
-            targetBody.style.setProperty('--layer-color', color);
-            targetTop.style.setProperty('--layer-color', color);
-        }
-
-        function toggleCream(color) {
-            const cream = document.getElementById('final-layer-' + activeLayer).querySelector('.cream-drip');
-            if (color === 'none') {
-                cream.classList.remove('show');
+        function typeHeroTitle() {
+            if (heroCharIndex < heroTitleText.length) {
+                heroTitleElement.textContent += heroTitleText.charAt(heroCharIndex);
+                heroCharIndex++;
+                setTimeout(typeHeroTitle, 100);
             } else {
-                cream.style.backgroundColor = color;
-                cream.querySelectorAll('.drip-drop').forEach(d => d.style.backgroundColor = color);
-                cream.classList.add('show');
+                setTimeout(() => {
+                    heroCursor.style.display = 'none';
+                }, 1500);
             }
         }
 
-        function addOrnament(emoji) {
-            const targetBody = document.getElementById('final-layer-' + activeLayer).querySelector('.layer-body'),
-                orn = document.createElement('div');
-            orn.className = 'layer-ornament';
-            orn.innerText = emoji;
-            orn.style.left = (Math.random() * 70 + 15) + '%';
-            orn.style.top = (Math.random() * 40 + 20) + '%';
-            orn.style.transform = `rotate(${(Math.random() * 40) - 20}deg)`;
-            targetBody.appendChild(orn);
-        }
+        document.addEventListener("DOMContentLoaded", () => {
+            typeEffectName();
+            setTimeout(typeHeroTitle, 300);
 
-        function changeCandle(type) {
-            document.getElementById('candle-c').style.display = "none";
-            document.getElementById('candle-18').style.display = "none";
-            document.getElementById('candle-' + (type === 'classic' ? 'c' : '18')).style.display = "block";
-        }
+            const frames = document.querySelectorAll('.frame-wrapper');
 
-        function prepareBlowMode() {
-            document.getElementById('decorator-sidebar').style.display = 'none';
-            document.getElementById('blow-actions').style.display = 'flex';
-        }
+            frames.forEach(frame => {
+                frame.addEventListener('click', () => {
+                    frames.forEach(f => f.classList.remove('active-pop'));
+                    frame.classList.add('active-pop');
+                });
+            });
 
-        function blowCandle() {
-            document.querySelectorAll('.flame').forEach(f => f.classList.add('blown-out'));
-            document.getElementById('hbd-audio').volume = 0.5;
-            document.getElementById('hbd-audio').play().catch(() => {});
+            if ('IntersectionObserver' in window) {
+                const observerOptions = {
+                    root: null,
+                    rootMargin: '-35% 0px -35% 0px',
+                    threshold: 0.2
+                };
 
-            document.querySelector('.decorating-layout').classList.add('celebrate');
-            document.getElementById('cake-wrapper').classList.add('pop-up');
-            document.getElementById('blow-actions').style.display = 'none';
+                const scrollObserver = new IntersectionObserver((entries) => {
+                    if (window.innerWidth <= 768) {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                frames.forEach(f => f.classList.remove('active-pop'));
+                                entry.target.classList.add('active-pop');
+                            }
+                        });
+                    }
+                }, observerOptions);
 
-            document.getElementById('confetti-container').style.display = 'block';
-            setInterval(() => {
-                const piece = document.createElement('div');
-                piece.className = 'confetti-piece';
-                piece.style.backgroundColor = ['#ffde59', '#00bf63', '#ff99c2', '#5ce1e6'][Math.floor(Math.random() * 4)];
-                piece.style.left = Math.random() * 100 + '%';
-                piece.style.animationDuration = (Math.random() * 3 + 2) + 's';
-                document.getElementById('confetti-container').appendChild(piece);
-                setTimeout(() => piece.remove(), 5000);
-            }, 100);
-        }
+                frames.forEach(frame => scrollObserver.observe(frame));
+            }
+        });
     </script>
 </body>
 
